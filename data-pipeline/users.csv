@@ -1,0 +1,11 @@
+name,age,status
+User_1,7,false
+User_2,59,false
+User_3,47,false
+User_4,44,true
+User_5,30,true
+User_6,60,true
+User_7,14,true
+User_8,54,true
+User_9,45,false
+User_10,15,false
