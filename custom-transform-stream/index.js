@@ -1,16 +1,20 @@
 import { Transform } from 'node:stream';
 
-class UppercaseTransform extends Transform {
-  constructor(options) {
-    super(options);
+class FilterActiveUsers extends Transform {
+  constructor() {
+    super({ objectMode: true });
   }
 
-  _transform(chunk, encoding, callback) {
-    const text = chunk.toString('utf8').toUpperCase();
-    this.push(Buffer.from(text));
+  _transform(user, _, callback) {
+    console.log(`Processing user: ${user.name}`);
+    if (user.isActive) this.push(user);
     callback();
   }
 }
 
-const trans = new UppercaseTransform();
-process.stdin.pipe(trans).pipe(process.stdout);
+const filter = new FilterActiveUsers();
+filter.on('data', (data) => console.log('Output received:', data));
+
+filter.write({ name: 'Rahul', isActive: true });
+filter.write({ name: 'Kesharwani', isActive: false });
+filter.end();
